@@ -10,8 +10,8 @@ datasource db {
 model User {
   idUser   String     @id @default(uuid()) @db.Uuid
   name     String     @db.VarChar(20)
-  username String     @db.VarChar(20)
-  email    String     @db.VarChar(50)
+  username String     @unique @db.VarChar(20)
+  email    String     @unique @db.VarChar(50)
   password String     @db.VarChar(20)
   messages Messages[]
 
