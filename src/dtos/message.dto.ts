@@ -3,3 +3,9 @@ export interface CreateMessageDto {
     description: string;
     idUser: string;
 }
+
+export interface UpdateMassageDto {
+    idMessage: string;
+    title?: string;
+    description?: string;
+}

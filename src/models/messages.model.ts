@@ -1,6 +1,6 @@
 import { v4 as createUuid } from "uuid";
 
-export class MessangeModel {
+export class MessageModel {
     private _idMassage: string;
     private _dateTimeCadrerated: Date;
 
@@ -17,19 +17,23 @@ export class MessangeModel {
         return this._idMassage;
     };
 
-    public get title(){
+    public set idMessage(item: string) {
+        this._idMassage = item;
+    }
+
+    public get title() {
         return this._title;
     };
 
-    public get description(){
+    public get description() {
         return this._description;
     };
 
-    public get idUser(){
+    public get idUser() {
         return this._idUser;
     };
 
-    public get dateTimeCadrerated(){
+    public get dateTimeCadrerated() {
         return this._dateTimeCadrerated;
     };
 
