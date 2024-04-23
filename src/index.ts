@@ -2,6 +2,7 @@ import  express, { Request, Response }  from "express";
 import cors from "cors";
 import * as dotenv from "dotenv"
 import UserRouter from "./routes/user.routes";
+import MessagesRouter from "./routes/message.routes"
 
 dotenv.config();
 
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(UserRouter);
+app.use(MessagesRouter);
 
 const port = process.env.PORT; 
 

@@ -5,7 +5,7 @@ export interface CreateMessageDto {
 }
 
 export interface UpdateMassageDto {
-    idMessage: string;
+    id: string;
     title?: string;
     description?: string;
 }

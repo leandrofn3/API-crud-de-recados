@@ -6,8 +6,7 @@ export interface CreateUserDto{
 }
 
 export interface UpdateUserDto {
-    
-    idUser: string;
+    id: string;
     name?: string;
     userName?: string;
     email?: string;

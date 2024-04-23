@@ -43,7 +43,7 @@ class UserService {
                 idUser
             }
         });
-
+        
         if (!user) {
             return {
                 code: 404,
@@ -57,29 +57,18 @@ class UserService {
             }
         });
 
-        const messageModel = messages.map(item => this.mapToModel(item));
 
         return {
             code: 200,
             message: "Message successfully listed!",
-            data: messageModel.map((item) => item)
+            data: messages
         };
     };
-
-    public mapToModel(message: MessageType){
-        const model = new MessageModel(
-            message.title,
-            message.description,
-            message.idUser,
-        );
-
-        model.idMessage = message.idMessage;
-    }
 
     public async update(data: UpdateUserDto): Promise<ResponseDto> {
         const user = await repository.user.findUnique({
             where: {
-                idUser: data.idUser
+                idUser: data.id
             }
         });
 
@@ -92,7 +81,7 @@ class UserService {
 
         const updatedUser = await repository.user.update({
             where: {
-                idUser: data.idUser
+                idUser: data.id
             },
 
             data: {

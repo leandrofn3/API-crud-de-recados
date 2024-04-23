@@ -35,14 +35,37 @@ class MessageService {
         }
     };
 
-    // public async listById(): Promise<ResponseDto> {
-    //     const user = await repository.messages
-    // };
+    public async listById(idMessage: string): Promise<ResponseDto> {
+        const message = await repository.messages.findUnique({
+            where: {
+                idMessage
+            }
+        });
+
+        if(!message){
+            return {
+                code: 404,
+                message: "Message not found!"
+            };
+        };
+
+        const messages = await repository.messages.findUnique({
+            where: {
+                idMessage
+            }
+        });
+
+        return {
+            code: 200,
+            message: "Messages successfully listed!",
+            data: messages
+        };
+    };
 
     public async update(data: UpdateMassageDto) {
         const message = await repository.messages.findUnique({
             where: {
-                idMessage: data.idMessage
+                idMessage: data.id
             }
         });
 

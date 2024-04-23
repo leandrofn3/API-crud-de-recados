@@ -26,6 +26,9 @@ class UserController {
 
     public async index(req: Request, res: Response) {
         try {
+            const result = await UserService.findAll();
+
+            res.status(result.code).send(result);
 
         } catch (error: any) {
             res.status(500).send({
@@ -54,11 +57,11 @@ class UserController {
 
     public async update(req: Request, res: Response) {
         try {
-            const { idUser } = req.params;
+            const { id } = req.params;
             const { name, userName, email, password } = req.body;
 
             const result = await UserService.update({
-                idUser,
+                id,
                 name,
                 userName,
                 email,

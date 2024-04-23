@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import MessageService from "../services/message.service";
-import userService from "../services/user.service";
 
 export class MessageController {
     public async create(req: Request, res: Response) {
@@ -39,7 +38,12 @@ export class MessageController {
 
     public async show(req: Request, res: Response) {
         try {
+            const {id} = req.params;
 
+            const result = await MessageService.listById(id);
+
+            return res.status(result.code).send(result);
+            
         } catch (error: any) {
             res.status(500).send({
                 ok: false,
@@ -50,11 +54,11 @@ export class MessageController {
 
     public async update(req: Request, res: Response) {
         try {
-            const { idMessage } = req.params;
+            const { id } = req.params;
             const { title, description } = req.body;
 
             const result = await MessageService.update({
-                idMessage,
+                id,
                 title,
                 description
             });
@@ -73,7 +77,7 @@ export class MessageController {
         try {
             const { id } = req.params;
 
-            const result = await userService.delete(id);
+            const result = await MessageService.delete(id);
 
             return res.status(result.code).send(result);
 
