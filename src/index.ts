@@ -3,6 +3,7 @@ import cors from "cors";
 import * as dotenv from "dotenv"
 import UserRouter from "./routes/user.routes";
 import MessagesRouter from "./routes/message.routes"
+import Authrouter from "./routes/auth.routes";
 
 dotenv.config();
 
@@ -11,6 +12,8 @@ app.use(express.json());
 app.use(cors());
 app.use(UserRouter);
 app.use(MessagesRouter);
+app.use(Authrouter);
+
 
 const port = process.env.PORT; 
 

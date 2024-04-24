@@ -1,10 +1,7 @@
-import { Public } from "@prisma/client/runtime/library";
 import repository from "../database/prisma.database";
 import { ResponseDto } from "../dtos/response.dto";
 import { CreateUserDto, UpdateUserDto } from "../dtos/user.dto";
 import UserModel from "../models/user.model";
-import { MessageModel } from "../models/messages.model";
-import { MessageType } from "../types/message.type";
 
 class UserService {
     public async create(data: CreateUserDto): Promise<ResponseDto> {
@@ -37,13 +34,34 @@ class UserService {
         };
     };
 
+    public async getByEmailAndPassword(email: string, password: string) {
+        const user = await repository.user.findUnique({
+            where: {
+                email: email,
+                password: password
+            }
+        });
+
+        return user;
+    };
+
+    public async getByToken(token: string) {
+        const user = await repository.user.findUnique({
+            where: {
+                token: token
+            },
+        });
+
+        return user
+    }
+
     public async listFromUser(idUser: string): Promise<ResponseDto> {
         const user = await repository.user.findUnique({
             where: {
                 idUser
             }
         });
-        
+
         if (!user) {
             return {
                 code: 404,
@@ -88,7 +106,8 @@ class UserService {
                 name: data.name,
                 username: data.userName,
                 email: data.email,
-                password: data.password
+                password: data.password,
+                token: data.token
             }
         });
 
