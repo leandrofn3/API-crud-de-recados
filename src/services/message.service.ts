@@ -13,9 +13,8 @@ class MessageService {
                 idMessage: message.idMessage,
                 title: message.title,
                 description: message.description,
-                idUser: message.idUser,
-                dateTimeCadrerated: message.dateTimeCadrerated
-            },
+                idUser: message.idUser
+            }
         });
 
         return {
@@ -36,19 +35,6 @@ class MessageService {
     };
 
     public async listById(idMessage: string): Promise<ResponseDto> {
-        const message = await repository.messages.findUnique({
-            where: {
-                idMessage
-            }
-        });
-
-        if(!message){
-            return {
-                code: 404,
-                message: "Message not found!"
-            };
-        };
-
         const messages = await repository.messages.findUnique({
             where: {
                 idMessage
@@ -63,22 +49,10 @@ class MessageService {
     };
 
     public async update(data: UpdateMassageDto) {
-        const message = await repository.messages.findUnique({
-            where: {
-                idMessage: data.id
-            }
-        });
-
-        if (!message) {
-            return {
-                code: 404,
-                message: "Message not found!"
-            }
-        };
 
         const updatedMassage = await repository.messages.update({
             where: {
-                idMessage: message.idMessage
+                idMessage: data.id
             },
             data: {
                 title: data.title,
@@ -95,18 +69,6 @@ class MessageService {
 
 
     public async delete(idMessage: string): Promise<ResponseDto> {
-        const message = await repository.messages.findUnique({
-            where: {
-                idMessage
-            }
-        });
-
-        if (!message) {
-            return {
-                code: 404,
-                message: "Message not found!"
-            }
-        }
 
         await repository.messages.delete({
             where: {

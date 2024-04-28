@@ -7,6 +7,13 @@ class AuthController {
     public async create(req: Request, res: Response) {
         const { email, password } = req.body
 
+        if(!email || !password || email === "" || password === ""){
+            return res.status(404).send({
+                ok: false,
+                message: "All fields must be filled in!"
+            });
+        }
+
         const user = await userService.getByEmailAndPassword(email, password);
 
         if (!user) {
@@ -29,10 +36,6 @@ class AuthController {
         if (update.code === 200) {
             return res.status(response.code).send(response);
         };
-    };
-
-    public async update(req: Request, res: Response) {
-
     };
 
     public async delete(req: Request, res: Response) {

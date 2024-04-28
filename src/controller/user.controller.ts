@@ -54,7 +54,6 @@ class UserController {
         };
     };
 
-
     public async update(req: Request, res: Response) {
         try {
             const { id } = req.params;

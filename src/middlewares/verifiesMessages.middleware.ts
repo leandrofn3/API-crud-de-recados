@@ -1,0 +1,31 @@
+import { NextFunction, Request, Response } from "express";
+import repository from "../database/prisma.database";
+
+async function verifiesMessagesID(req: Request, res: Response, next: NextFunction) {
+    try {
+        const { id } = req.params;
+
+        const message = await repository.messages.findUnique({
+            where: {
+                idMessage: id
+            }
+        });
+
+        if (!message || message === null) {
+            return res.status(404).send({
+                ok: false,
+                message: "Message not found!"
+            });
+        };
+
+        next()
+
+    } catch (error: any) {
+        res.status(500).send({
+            ok: false,
+            message: error.toString()
+        });
+    };
+};
+
+export default verifiesMessagesID;

@@ -41,7 +41,6 @@ class UserService {
                 password: password
             }
         });
-
         return user;
     };
 
@@ -56,25 +55,12 @@ class UserService {
     }
 
     public async listFromUser(idUser: string): Promise<ResponseDto> {
-        const user = await repository.user.findUnique({
-            where: {
-                idUser
-            }
-        });
-
-        if (!user) {
-            return {
-                code: 404,
-                message: "User not found!"
-            }
-        };
 
         const messages = await repository.messages.findMany({
             where: {
                 idUser
             }
         });
-
 
         return {
             code: 200,
@@ -84,18 +70,6 @@ class UserService {
     };
 
     public async update(data: UpdateUserDto): Promise<ResponseDto> {
-        const user = await repository.user.findUnique({
-            where: {
-                idUser: data.id
-            }
-        });
-
-        if (!user) {
-            return {
-                code: 404,
-                message: "User not found!"
-            };
-        };
 
         const updatedUser = await repository.user.update({
             where: {
@@ -119,18 +93,6 @@ class UserService {
     };
 
     public async delete(idUser: string): Promise<ResponseDto> {
-        const user = await repository.user.findUnique({
-            where: {
-                idUser
-            }
-        });
-
-        if (!user) {
-            return {
-                code: 404,
-                message: "User not found!"
-            };
-        };
 
         await repository.user.delete({
             where: {
