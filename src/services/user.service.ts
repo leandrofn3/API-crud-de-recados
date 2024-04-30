@@ -48,13 +48,13 @@ class UserService {
         const user = await repository.user.findUnique({
             where: {
                 token: token
-            },
+            }
         });
 
         return user
     }
 
-    public async listFromUser(idUser: string): Promise<ResponseDto> {
+    public async listByMessagesUser(idUser: string): Promise<ResponseDto> {
 
         const messages = await repository.messages.findMany({
             where: {
@@ -73,7 +73,7 @@ class UserService {
 
         const updatedUser = await repository.user.update({
             where: {
-                idUser: data.id
+                idUser: data.idUser
             },
 
             data: {

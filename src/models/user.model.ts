@@ -3,14 +3,14 @@ import { v4 as createUuid } from "uuid";
 class UserModel {
 
     private _idUser: string;
-
+    
     constructor(
         private _name: string,
         private _userName: string,
         private _email: string,
         private _password: string
     ) {
-        this._idUser = createUuid();
+        this._idUser = createUuid()
     };
 
     public get idUser (){
@@ -39,7 +39,6 @@ class UserModel {
             name: this.name,
             userName: this.userName,
             email: this.email,
-            password: this.password
         }
     };
 };

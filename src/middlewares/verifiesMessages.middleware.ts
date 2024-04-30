@@ -3,13 +3,15 @@ import repository from "../database/prisma.database";
 
 async function verifiesMessagesID(req: Request, res: Response, next: NextFunction) {
     try {
-        const { id } = req.params;
+        const { idMessage } = req.params;
 
-        const message = await repository.messages.findUnique({
-            where: {
-                idMessage: id
-            }
-        });
+    const message = await repository.messages.findUnique({
+        where: {
+            idMessage: idMessage,
+        }
+    });
+
+    console.log(`esse e o message: ${message}`)
 
         if (!message || message === null) {
             return res.status(404).send({

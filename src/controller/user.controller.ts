@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import UserService from "../services/user.service";
+import userService from "../services/user.service";
 
 class UserController {
 
@@ -11,7 +12,8 @@ class UserController {
                 name,
                 userName,
                 email,
-                password
+                password,
+                idUser: ""
             });
 
             return res.status(result.code).send(result);
@@ -40,9 +42,9 @@ class UserController {
 
     public async show(req: Request, res: Response) {
         try {
-            const { id } = req.params;
+            const { idUser } = req.body;
 
-            const result = await UserService.listFromUser(id);
+            const result = await UserService.listByMessagesUser(idUser);
 
             return res.status(result.code).send(result);
 
@@ -56,11 +58,14 @@ class UserController {
 
     public async update(req: Request, res: Response) {
         try {
-            const { id } = req.params;
+            const { idUser } = req.params;
             const { name, userName, email, password } = req.body;
 
-            const result = await UserService.update({
-                id,
+            console.log(`aqui e o idUser: ${idUser}`)
+            console.log(`aqui controller: ${name}, ${userName}, ${email}, ${password}`)
+
+            const result = await userService.update({
+                idUser,
                 name,
                 userName,
                 email,
@@ -79,9 +84,9 @@ class UserController {
 
     public async delete(req: Request, res: Response) {
         try {
-            const { id } = req.params;
+            const { idUser } = req.params;
 
-            const result = await UserService.delete(id);
+            const result = await UserService.delete(idUser);
 
             return res.status(result.code).send(result);
 

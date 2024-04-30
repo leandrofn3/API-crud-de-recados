@@ -3,23 +3,25 @@ import userService from "../services/user.service";
 
 async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     try {
-        const { token } = req.headers;
+        const token = req.headers.authorization;
 
         if (!token) {
             return res.status(401).send({
-                ok: false,
-                message: "Authentication token fail!"
+                code: 401,
+                message: "Authentication token fail! 1"
             });
         };
 
-        const user = await userService.getByToken(token as string);
+        const user = await userService.getByToken(token);
 
-        if(!user){
+        if (!user) {
             return res.status(401).send({
-                ok: false,
-                message: "Authentication token fail!"
+                code: 401,
+                message: "Authentication token fail! 2"
             });
         }
+
+        req.body.idUser = user.idUser;
 
         next();
 

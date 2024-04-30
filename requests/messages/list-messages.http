@@ -1,0 +1,2 @@
+GET http://localhost:3333/messages HTTP/1.1
+Authorization: 78aa3f0d-435b-442c-9903-934521faeca2

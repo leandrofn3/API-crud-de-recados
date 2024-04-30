@@ -1,0 +1,7 @@
+GET http://localhost:3333/logout HTTP/1.1
+content-type: application/json
+Authorization: ee4644e9-ef37-48ce-a3f1-cf54e51f6db3
+
+
+
+

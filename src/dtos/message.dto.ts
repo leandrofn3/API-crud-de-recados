@@ -5,7 +5,14 @@ export interface CreateMessageDto {
 }
 
 export interface UpdateMassageDto {
-    id: string;
+    idMessage: string;
+    idUser: string;
     title?: string;
     description?: string;
 }
+
+export interface listByIdMessagesOrDelete {
+    idMessage: string;
+    idUser: string;
+}
+

@@ -9,8 +9,8 @@ const controller = new UserController();
 
 router.post("/user/create/", createMiddleware, controller.create);
 router.get("/users", authMiddleware, controller.index);
-router.get("/users/list/message/:id", [authMiddleware, verifiesUserID], controller.show);
-router.put("/user/update/:id", [authMiddleware, verifiesUserID], controller.update);
-router.delete("/user/delete/:id", [authMiddleware, verifiesUserID], controller.delete);
+router.get("/users/list/message/:idUser", [authMiddleware, verifiesUserID], controller.show);
+router.put("/user/update/:idUser", [authMiddleware, verifiesUserID], controller.update);
+router.delete("/user/delete/:idUser", [authMiddleware, verifiesUserID], controller.delete);
 
 export default router;

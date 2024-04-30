@@ -38,9 +38,9 @@ export class MessageController {
 
     public async show(req: Request, res: Response) {
         try {
-            const { id } = req.params;
-
-            const result = await MessageService.listById(id);
+            const { idMessage } = req.params;
+    
+            const result = await MessageService.listById(idMessage);
 
             return res.status(result.code).send(result);
 
@@ -54,13 +54,14 @@ export class MessageController {
 
     public async update(req: Request, res: Response) {
         try {
-            const { id } = req.params;
-            const { title, description } = req.body;
+            const { idMessage } = req.params;
+            const { title, description, idUser } = req.body;
 
             const result = await MessageService.update({
-                id,
+                idMessage,
                 title,
-                description
+                description,
+                idUser
             });
 
             return res.status(result.code).send(result);
@@ -75,9 +76,10 @@ export class MessageController {
 
     public async delete(req: Request, res: Response) {
         try {
-            const { id } = req.params;
+            const { idMessage } = req.params;
+            const { idUser } = req.body;
 
-            const result = await MessageService.delete(id);
+            const result = await MessageService.delete({ idMessage, idUser: idUser });
 
             return res.status(result.code).send(result);
 

@@ -1,4 +1,5 @@
 export interface CreateUserDto{
+    idUser: string
     name: string;
     userName: string;
     email: string;
@@ -6,7 +7,7 @@ export interface CreateUserDto{
 };
 
 export interface UpdateUserDto {
-    id: string;
+    idUser: string;
     name?: string;
     userName?: string;
     email?: string;

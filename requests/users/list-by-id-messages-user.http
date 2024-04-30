@@ -1,0 +1,2 @@
+GET http://localhost:3333/users/list/message/34c83e25-1680-4a2f-8daa-65c0b8fe3d02 HTTP/1.1
+Authorization: 78aa3f0d-435b-442c-9903-934521faeca2

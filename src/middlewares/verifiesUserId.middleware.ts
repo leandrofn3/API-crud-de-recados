@@ -3,9 +3,9 @@ import repository from "../database/prisma.database";
 
 async function verifiesUserID(req: Request, res: Response, next: NextFunction) {
     try {
-        const { id } = req.params;
+        const { idUser } = req.params;
 
-        if (id === "" || !id) {
+        if (idUser === "" || !idUser) {
             return res.status(404).send({
                 ok: false,
                 message: "The ID must be passed!"
@@ -14,7 +14,7 @@ async function verifiesUserID(req: Request, res: Response, next: NextFunction) {
 
         const user = await repository.user.findUnique({
             where: {
-                idUser: id
+                idUser: idUser
             }
         });
 
