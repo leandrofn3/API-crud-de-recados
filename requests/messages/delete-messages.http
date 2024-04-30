@@ -1,4 +1,4 @@
-DELETE  http://localhost:3333/message/delete/131c8ba3-cd07-4cc0-8b8a-dc79e4f6172f HTTP/1.1
+DELETE  http://localhost:3333/message/delete/c63924c7-71b7-4d62-b96b-555eea88ef7e HTTP/1.1
 content-type: application/json
 Authorization: 78aa3f0d-435b-442c-9903-934521faeca2
 

@@ -1,2 +1,2 @@
-DELETE  http://localhost:3333/user/delete/e970ad3d-cafe-4210-b17c-35664fd74090 HTTP/1.1
-Authorization: 9ff648c9-622f-4064-bfe9-5212831fd08f
+DELETE  http://localhost:3333/user/delete/08b81e56-a867-4c94-a563-f6ede1ef685d HTTP/1.1
+Authorization: 78aa3f0d-435b-442c-9903-934521faeca2

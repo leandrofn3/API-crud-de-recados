@@ -61,9 +61,6 @@ class UserController {
             const { idUser } = req.params;
             const { name, userName, email, password } = req.body;
 
-            console.log(`aqui e o idUser: ${idUser}`)
-            console.log(`aqui controller: ${name}, ${userName}, ${email}, ${password}`)
-
             const result = await userService.update({
                 idUser,
                 name,

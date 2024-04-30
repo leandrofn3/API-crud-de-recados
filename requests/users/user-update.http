@@ -1,6 +1,6 @@
-PUT http://localhost:3333/user/update/34c83e25-1680-4a2f-8daa-65c0b8fe3d02 HTTP/1.1
+PUT http://localhost:3333/user/update/0069d66e-aeb7-41f6-954a-931a3d0cd1de HTTP/1.1
 content-type: application/json
-Authorization: 78aa3f0d-435b-442c-9903-934521faeca2
+Authorization: c3562e0d-24c2-4e37-8b75-806536bce5a2
 
 {
     "password": "1234567"

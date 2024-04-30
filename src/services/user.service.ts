@@ -2,10 +2,14 @@ import repository from "../database/prisma.database";
 import { ResponseDto } from "../dtos/response.dto";
 import { CreateUserDto, UpdateUserDto } from "../dtos/user.dto";
 import UserModel from "../models/user.model";
+import bcrypt from "bcrypt"
 
 class UserService {
     public async create(data: CreateUserDto): Promise<ResponseDto> {
-        const user = new UserModel(data.name, data.userName, data.email, data.password);
+        const salt = await bcrypt.genSalt(10)
+        const passwordHash = await bcrypt.hash(data.password, salt);
+
+        const user = new UserModel(data.name, data.userName, data.email, passwordHash);
 
         const createdUser = await repository.user.create({
             data: {
@@ -13,7 +17,7 @@ class UserService {
                 name: user.name,
                 username: user.userName,
                 email: user.email,
-                password: user.password
+                password: passwordHash
             },
         });
 
@@ -37,10 +41,20 @@ class UserService {
     public async getByEmailAndPassword(email: string, password: string) {
         const user = await repository.user.findUnique({
             where: {
-                email: email,
-                password: password
+                email: email
             }
         });
+
+        if(!user){
+            return null;
+        }
+
+        const isValid = await bcrypt.compare(password, user.password);
+
+        if(!isValid){
+            return null;
+        }
+
         return user;
     };
 
@@ -71,6 +85,12 @@ class UserService {
 
     public async update(data: UpdateUserDto): Promise<ResponseDto> {
 
+        if(data.password){
+            const salt = await bcrypt.genSalt(10)
+            const hashedPassword = await bcrypt.hash(data.password, salt);
+            data.password = hashedPassword;
+        }
+        
         const updatedUser = await repository.user.update({
             where: {
                 idUser: data.idUser
