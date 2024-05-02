@@ -38,38 +38,7 @@ class UserService {
         };
     };
 
-    public async getByEmailAndPassword(email: string, password: string) {
-        const user = await repository.user.findUnique({
-            where: {
-                email: email
-            }
-        });
-
-        if(!user){
-            return null;
-        }
-
-        const isValid = await bcrypt.compare(password, user.password);
-
-        if(!isValid){
-            return null;
-        }
-
-        return user;
-    };
-
-    public async getByToken(token: string) {
-        const user = await repository.user.findUnique({
-            where: {
-                token: token
-            }
-        });
-
-        return user
-    }
-
     public async listByMessagesUser(idUser: string): Promise<ResponseDto> {
-
         const messages = await repository.messages.findMany({
             where: {
                 idUser
@@ -84,7 +53,7 @@ class UserService {
     };
 
     public async update(data: UpdateUserDto): Promise<ResponseDto> {
-
+        
         if(data.password){
             const salt = await bcrypt.genSalt(10)
             const hashedPassword = await bcrypt.hash(data.password, salt);

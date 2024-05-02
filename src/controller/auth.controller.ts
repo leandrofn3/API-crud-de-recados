@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import userService from "../services/user.service";
-import { ResponseDto } from "../dtos/response.dto";
-import { v4 as CreateToken } from "uuid";
+import authService from "../services/auth.service";
+import jwt from "jsonwebtoken";
 
 class AuthController {
-    public async create(req: Request, res: Response) {
+    public async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body
 
@@ -15,28 +14,38 @@ class AuthController {
                 });
             }
 
-            const user = await userService.getByEmailAndPassword(email, password);
+            const user = await authService.login(email, password);
 
             if (!user) {
                 return res.status(401).send({
                     ok: false,
-                    message: "Email or password wrong!"
+                    message: "Invalid email or password!!"
                 });
             };
 
-            const token = CreateToken();
+            const payload = {
+                idUser: user.idUser,
+                name: user.name,
+                email: user.email
+            }
 
-            const update = await userService.update({ ...user, token: token, idUser: user.idUser });
+            const token = jwt.sign({
+                idUser: user.idUser,
+                name: user.name,
+                email: user.email
+            },
+                process.env.JWT_SECRET || "",
+                { expiresIn: "1h" }
+            )
 
-            const response: ResponseDto = {
+
+            return res.status(200).send({
                 code: 200,
-                message: "Login sucess",
-                data: { token: token }
-            };
+                message: "login successfuly!",
+                data: { token: token, payload }
+            });
 
-            if (update.code === 200) {
-                return res.status(response.code).send(response);
-            };
+
         } catch (error: any) {
             res.status(500).send({
                 ok: false,
@@ -45,30 +54,30 @@ class AuthController {
         }
     };
 
-    public async delete(req: Request, res: Response) {
+    public async logout(req: Request, res: Response) {
         try {
-            const  token  = req.headers.authorization;
+            // const token = req.headers.authorization;
 
-            const user = await userService.getByToken( token as string);
+            // const user = await authService.validateToken(token as string);
 
-            console.log(`esse e o token do controller: ${token}`)
+            // console.log(`esse e o token do controller: ${token}`)
 
-            if (user) {
-                const response: ResponseDto = {
-                    code: 200,
-                    message: "Logout success!"
-                };
-                await userService.update({ ...user, token: null || undefined, idUser: user.idUser });
+            // if (user) {
+            //     const response: ResponseDto = {
+            //         code: 200,
+            //         message: "Logout success!"
+            //     };
+            //     await userService.update({ ...user, token: null || "", idUser: user.idUser });
 
-                return res.status(response.code).send(response);
-            }
+            //     return res.status(response.code).send(response);
+            // }
 
-            const response: ResponseDto = {
-                code: 404,
-                message: "Logout not found!"
-            };
+            // const response: ResponseDto = {
+            //     code: 404,
+            //     message: "Logout not found!"
+            // };
 
-            return res.status(response.code).send(response);
+            // return res.status(response.code).send(response);
         } catch (error: any) {
             res.status(500).send({
                 ok: false,

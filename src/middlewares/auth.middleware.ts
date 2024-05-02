@@ -1,29 +1,28 @@
 import { NextFunction, Request, Response } from "express";
-import userService from "../services/user.service";
+import jwt from "jsonwebtoken";
 
 async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     try {
-        const token = req.headers.authorization;
+        const authorization = req.headers["authorization"];
 
-        if (!token) {
+        if (!authorization) {
             return res.status(401).send({
                 code: 401,
-                message: "Authentication token fail! 1"
-            });
-        };
-
-        const user = await userService.getByToken(token);
-
-        if (!user) {
-            return res.status(401).send({
-                code: 401,
-                message: "Authentication token fail! 2"
+                message: "Check your email or password!"
             });
         }
 
-        req.body.idUser = user.idUser;
-
-        next();
+        jwt.verify(authorization, process.env.JWT_SECRET || "", (error: any, user: any ) => {
+            if (error) {
+                return res.status(403).send({
+                    code: 403,
+                    message: "Invalid or expired token!"
+                });
+            }
+            req.user = user;
+            req.body.idUser = user.idUser;
+            next();
+        });
 
     } catch (error: any) {
         res.status(500).send({
