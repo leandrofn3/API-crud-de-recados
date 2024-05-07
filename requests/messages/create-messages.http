@@ -1,9 +1,9 @@
 POST http://localhost:3333/message/create HTTP/1.1
 content-type: application/json
-Authorization: 78aa3f0d-435b-442c-9903-934521faeca2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOiJmOTI0ZGVkNC1lZjU3LTQ2MmEtOTk1NC00NzFmNTdmYzU4MjIiLCJuYW1lIjoiYWRtaW4zIGF0dWFsaXphZG8iLCJlbWFpbCI6ImFkbWluM0BlbWFpbC5jb20iLCJpYXQiOjE3MTUwODcxODEsImV4cCI6MTcxNTA5MDc4MX0.jocR2R0p0b2xH4GDt9wV3wNWcSJL5DtR9mAs9wk447Y
 
 {
-	"title": "messagens do leandro ",
-    "description": "messagens do leandro",
-    "idUser": "34c83e25-1680-4a2f-8daa-65c0b8fe3d02"
+	"title": "messagens do admin 3 para atualizar ",
+    "description": "messagens do admin atualizar",
+    "idUser": "f924ded4-ef57-462a-9954-471f57fc5822"
 }

@@ -16,7 +16,7 @@ export class MessageController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };
@@ -30,7 +30,7 @@ export class MessageController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };
@@ -39,14 +39,14 @@ export class MessageController {
     public async show(req: Request, res: Response) {
         try {
             const { idMessage } = req.params;
-    
+
             const result = await MessageService.listById(idMessage);
 
             return res.status(result.code).send(result);
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };
@@ -68,7 +68,7 @@ export class MessageController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };
@@ -85,7 +85,7 @@ export class MessageController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };

@@ -8,8 +8,8 @@ class AuthController {
             const { email, password } = req.body
 
             if (!email || !password || email === "" || password === "") {
-                return res.status(404).send({
-                    ok: false,
+                return res.status(400).send({
+                    code: 400,
                     message: "All fields must be filled in!"
                 });
             }
@@ -18,7 +18,7 @@ class AuthController {
 
             if (!user) {
                 return res.status(401).send({
-                    ok: false,
+                    code: 401,
                     message: "Invalid email or password!!"
                 });
             };
@@ -48,43 +48,11 @@ class AuthController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         }
     };
-
-    public async logout(req: Request, res: Response) {
-        try {
-            // const token = req.headers.authorization;
-
-            // const user = await authService.validateToken(token as string);
-
-            // console.log(`esse e o token do controller: ${token}`)
-
-            // if (user) {
-            //     const response: ResponseDto = {
-            //         code: 200,
-            //         message: "Logout success!"
-            //     };
-            //     await userService.update({ ...user, token: null || "", idUser: user.idUser });
-
-            //     return res.status(response.code).send(response);
-            // }
-
-            // const response: ResponseDto = {
-            //     code: 404,
-            //     message: "Logout not found!"
-            // };
-
-            // return res.status(response.code).send(response);
-        } catch (error: any) {
-            res.status(500).send({
-                ok: false,
-                message: error.toString()
-            });
-        };
-    }
 }
 
 export default AuthController;

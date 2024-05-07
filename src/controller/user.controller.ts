@@ -20,7 +20,7 @@ class UserController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };
@@ -34,7 +34,7 @@ class UserController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };
@@ -50,7 +50,7 @@ class UserController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };
@@ -73,7 +73,7 @@ class UserController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };
@@ -89,7 +89,7 @@ class UserController {
 
         } catch (error: any) {
             res.status(500).send({
-                ok: false,
+                code: 500,
                 message: error.toString()
             });
         };

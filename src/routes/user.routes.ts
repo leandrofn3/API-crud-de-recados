@@ -7,7 +7,7 @@ import verifiesUserID from "../middlewares/verifiesUserId.middleware";
 const router = Router();
 const controller = new UserController();
 
-router.post("/user/create/", createMiddleware, controller.create);
+router.post("/user/create", createMiddleware, controller.create);
 router.get("/users", authMiddleware, controller.index);
 router.get("/users/list/message/:idUser", [authMiddleware, verifiesUserID], controller.show);
 router.put("/user/update/:idUser", [authMiddleware, verifiesUserID], controller.update);

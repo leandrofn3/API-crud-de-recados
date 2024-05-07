@@ -1,9 +1,9 @@
-PUT http://localhost:3333/message/update/131c8ba3-cd07-4cc0-8b8a-dc79e4f6172f HTTP/1.1
+PUT http://localhost:3333/message/update/bb130615-be1c-4789-8b7b-147d8302430f HTTP/1.1
 content-type: application/json
-Authorization: 78aa3f0d-435b-442c-9903-934521faeca2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOiJmOTI0ZGVkNC1lZjU3LTQ2MmEtOTk1NC00NzFmNTdmYzU4MjIiLCJuYW1lIjoiYWRtaW4zIGF0dWFsaXphZG8iLCJlbWFpbCI6ImFkbWluM0BlbWFpbC5jb20iLCJpYXQiOjE3MTUxMDE5OTAsImV4cCI6MTcxNTEwNTU5MH0.kkYOQp64x_hSoh8B3z_FUdGhdCiKvHjEYrvzWWzVlxw
 
 {
-	"title": "menssagens do adm 4",
-    "description": "messagens do adm 4",
-    "idUser": "08b81e56-a867-4c94-a563-f6ede1ef685d"
+	"title": "menssagens do adm atualizada para a documentação",
+
+    "idUser": "f924ded4-ef57-462a-9954-471f57fc5822"
 }

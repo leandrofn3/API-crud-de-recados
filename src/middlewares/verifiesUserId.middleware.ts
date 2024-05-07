@@ -7,7 +7,7 @@ async function verifiesUserID(req: Request, res: Response, next: NextFunction) {
 
         if (idUser === "" || !idUser) {
             return res.status(404).send({
-                ok: false,
+                code: 404,
                 message: "The ID must be passed!"
             });
         }
@@ -20,7 +20,7 @@ async function verifiesUserID(req: Request, res: Response, next: NextFunction) {
 
         if (!user || user === null) {
             return res.status(404).send({
-                ok: false,
+                code: 404,
                 message: "User not found!"
             });
         }

@@ -1,7 +1,7 @@
-PUT http://localhost:3333/user/update/0069d66e-aeb7-41f6-954a-931a3d0cd1de HTTP/1.1
+PUT http://localhost:3333/user/update/ HTTP/1.1
 content-type: application/json
-Authorization: c3562e0d-24c2-4e37-8b75-806536bce5a2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOiJmOTI0ZGVkNC1lZjU3LTQ2MmEtOTk1NC00NzFmNTdmYzU4MjIiLCJuYW1lIjoiYWRtaW4zIiwiZW1haWwiOiJhZG1pbjNAZW1haWwuY29tIiwiaWF0IjoxNzE1MDE5MTY5LCJleHAiOjE3MTUwMjI3Njl9.BY6rOXAhFLXMR5tfrrgDZNDkH2cc_N_5M60vX9cZIek
 
 {
-    "password": "1234567"
+    "name": "admin3 atualizado"
 }

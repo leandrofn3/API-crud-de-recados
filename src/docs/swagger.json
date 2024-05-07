@@ -1,0 +1,1102 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "API CRUD DE RECADOS",
+		"description": "Essa é uma API de crud de recados, onde o usuário pode criar uma conta, logar no sistema, criar os seus próprios recados, ler, editar e atualizar. Essa API foi construída com node.js, TypeScript, com prisma para conexão com o banco de dados que é o PostgreSQL.",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3333",
+			"description": "Servidor local"
+		}
+	],
+	"tags": [
+		{
+			"name": "Login",
+			"description": "Rotas para autenticação do usuário."
+		},
+		{
+			"name": "User",
+			"description": "Rotas para o gerenciamento de usuários."
+		},
+		{
+			"name": "Messages"
+		}
+	],
+	"paths": {
+		"/user/create": {
+			"post": {
+				"tags": ["User"],
+				"summary": "Cria um novo usuário.",
+				"description": "Cria um novo usuário no sistema.",
+				"requestBody": {
+					"description": "Detalhes do usuário para criar um novo usuário.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Usuário criado com êxito!",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/responseCreateUser"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Solicitação inválida. Verifique se todos os campos estão corretamente preenchidos.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error. Isso pode ser causado por um PrismaClientKnownRequestError, como uma violação de restrição única no campo 'email' ou 'username'.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users": {
+			"get": {
+				"tags": ["User"],
+				"summary": "Listar todos os usuários.",
+				"description": "Essa rota é responsável por listar todos os usuários do sistema.",
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Token JWT para autenticação",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"default": "Bearer {token}"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Usuário listado com êxito.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserListResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/list/message/{idUser}": {
+			"get": {
+				"tags": ["User"],
+				"summary": "Listar todas as mensagens de um usuário",
+				"description": "Recupera todas as mensagens associadas a um usuário específico com base em seu ID.",
+				"parameters": [
+					{
+						"name": "idUser",
+						"in": "path",
+						"required": true,
+						"description": "O ID do usuário cujas mensagens devem ser recuperadas.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "Um token JWT válido para autenticação.",
+						"schema": {
+							"type": "string",
+							"default": "Bearer {token}"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Mensagens listadas com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ListMessageIdUserResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Usuário não encontrado ou o ID deve ser fornecido",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/user/update/{idUser}": {
+			"put": {
+				"tags": ["User"],
+				"summary": "Atualizar usuário",
+				"description": "Essa rota e responsavel por atualizar.",
+				"parameters": [
+					{
+						"name": "idUser",
+						"in": "path",
+						"required": true,
+						"description": "O ID do usuário cuja queira atualizar.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "Um token JWT válido para autenticação.",
+						"schema": {
+							"type": "string",
+							"default": "Bearer {token}"
+						}
+					}
+				],
+				"requestBody": {
+					"required": false,
+					"content": {
+						"application/json": {
+							"type": "object",
+							"schema": {
+								"$ref": "#/components/schemas/DataUser"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Atualização do usuário com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "integer",
+											"description": "O código de status HTTP da resposta."
+										},
+										"message": {
+											"type": "string",
+											"description": "Uma mensagem de sucesso ou erro relacionada à solicitação."
+										},
+										"data": {
+											"$ref": "#/components/schemas/DataUser"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Usuário não encontrado ou o ID deve ser fornecido",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/user/delete/{idUser}": {
+			"delete": {
+				"tags": ["User"],
+				"summary": "deletar usuário",
+				"description": "essa rota e responsavel por deletar um usuário",
+				"parameters": [
+					{
+						"name": "idUser",
+						"in": "path",
+						"required": true,
+						"description": "O ID do usuário que queira deletar.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "Um token JWT válido para autenticação.",
+						"schema": {
+							"type": "string",
+							"default": "Bearer {token}"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Usuário excluído com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/message/create": {
+			"post": {
+				"tags": ["Messages"],
+				"summary": "Cria uma nova menssagem.",
+				"description": "Cria uma nova messagem para o usuário.",
+				"requestBody": {
+					"description": "Detalhes da menssagem para criar uma nova Messagem.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/createMessages"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Mensagem criado com êxito!",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ListMessageIdUserResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Solicitação inválida. Verifique se todos os campos estão corretamente preenchidos.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/messages": {
+			"get": {
+				"tags": ["Messages"],
+				"summary": "Listar todas as mensagens.",
+				"description": "Essa rota é responsável por listar todas as mensagens do sistema.",
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Token JWT para autenticação",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"default": "Bearer {token}"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Mensagem listada com êxito.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ListMessageIdUserResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/message/list-by-id/{idMessage}": {
+			"get": {
+				"tags": ["Messages"],
+				"summary": "Lista mensagem pelo ID",
+				"description": "lista a mensagem cuja o ID foi passado ",
+				"parameters": [
+					{
+						"name": "idMessage",
+						"in": "path",
+						"required": true,
+						"description": "O ID da mensagem que vai ser listada.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "Um token JWT válido para autenticação.",
+						"schema": {
+							"type": "string",
+							"default": "Bearer {token}"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Mensagens listadas com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ListMessageIdUserResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Messagem não encontrada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/message/update/{idMessage}": {
+			"put": {
+				"tags": ["Messages"],
+				"summary": "Atualizar Messagens",
+				"description": "Essa rota e responsavel por atualizar as mesagens.",
+				"parameters": [
+					{
+						"name": "idMessage",
+						"in": "path",
+						"required": false,
+						"description": "O ID da mensagem cuja queira atualizar.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "Um token JWT válido para autenticação.",
+						"schema": {
+							"type": "string",
+							"default": "Bearer {token}"
+						}
+					}
+				],
+				"requestBody": {
+					"required": false,
+					"content": {
+						"application/json": {
+							"type": "object",
+							"schema": {
+								"properties": {
+									"title": {
+										"type": "string",
+										"description": "O título da mensagem."
+									},
+									"description": {
+										"type": "string",
+										"description": "A descrição da mensagem."
+									},
+									"idUser": {
+										"type": "string",
+										"description": "O ID do usuário que criou a mensagem."
+									}
+								},
+								"required": ["idUser"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Atualização da mesagem com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "integer",
+											"description": "O código de status HTTP da resposta."
+										},
+										"message": {
+											"type": "string",
+											"description": "Uma mensagem de sucesso ou erro relacionada à solicitação."
+										},
+										"data": {
+											"$ref": "#/components/schemas/DataUser"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Mesagem não encontrada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/message/delete/{idMessage}": {
+			"delete": {
+				"tags": ["Messages"],
+				"summary": "deletar uma mensagem",
+				"description": "essa rota e responsavel por deletar uma mensagem",
+				"parameters": [
+					{
+						"name": "idMessage",
+						"in": "path",
+						"required": true,
+						"description": "O ID da mensagem que queira deletar.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"description": "Um token JWT válido para autenticação.",
+						"schema": {
+							"type": "string",
+							"default": "Bearer {token}"
+						}
+					}
+				],
+				"requestBody": {
+					"required": false,
+					"content": {
+						"application/json": {
+							"type": "object",
+							"schema": {
+								"properties": {
+									"idUser": {
+										"type": "string",
+										"description": "O ID do usuário que criou a mensagem."
+									}
+								},
+								"required": ["idUser"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Mesagem excluída com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Não autorizado. É necessário fornecer um token válido.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Token inválido ou expirado.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Messagem não encontrada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/login": {
+			"post": {
+				"tags": ["Login"],
+				"summary": "Faz o login.",
+				"description": "Faz o login do usuário no sistema.",
+				"requestBody": {
+					"description": "Detalhes para fazer o login.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"description": "O endereço de e-mail do usuário."
+									},
+									"password": {
+										"type": "string",
+										"description": "A senha do usuário."
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Login com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/responseLogin"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Todos os campos devem ser preenchidos",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "E-mail ou senha inválidos.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/errorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"User": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "O nome completo do usuário."
+					},
+					"userName": {
+						"type": "string",
+						"description": "O nome de usuário único do usuário."
+					},
+					"email": {
+						"type": "string",
+						"description": "O endereço de e-mail do usuário."
+					},
+					"password": {
+						"type": "string",
+						"description": "A senha do usuário."
+					}
+				},
+				"required": ["name", "userName", "email", "password"]
+			},
+			"Message": {
+				"type": "object",
+				"properties": {
+					"idMessage": {
+						"type": "string",
+						"description": "O ID da mensagem."
+					},
+					"title": {
+						"type": "string",
+						"description": "O título da mensagem."
+					},
+					"description": {
+						"type": "string",
+						"description": "A descrição da mensagem."
+					},
+					"idUser": {
+						"type": "string",
+						"description": "O ID do usuário que criou a mensagem."
+					},
+					"dateTimeCadrerated": {
+						"type": "string",
+						"format": "date-time",
+						"description": "A data e hora em que a mensagem foi criada."
+					}
+				},
+				"required": ["idMessage", "title", "description", "idUser", "dateTimeCadrerated"]
+			},
+			"ListMessageIdUserResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "integer",
+						"description": "O código de status HTTP da resposta."
+					},
+					"message": {
+						"type": "string",
+						"description": "Uma mensagem de sucesso ou erro relacionada à solicitação."
+					},
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Message"
+						}
+					}
+				},
+				"required": ["code", "message", "data"]
+			},
+			"errorResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "integer",
+						"description": "O código de erro."
+					},
+					"message": {
+						"type": "string",
+						"description": "A mensagem de erro."
+					}
+				},
+				"required": ["code", "message"]
+			},
+			"responseCreateUser": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "integer",
+						"description": "O código de status HTTP da resposta."
+					},
+					"message": {
+						"type": "string",
+						"description": "Uma mensagem de sucesso ou erro relacionada à solicitação."
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					}
+				},
+				"required": ["code", "message", "user"]
+			},
+			"UserListResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "integer",
+						"description": "O código de status HTTP da resposta."
+					},
+					"message": {
+						"type": "string",
+						"description": "Uma mensagem de sucesso ou erro relacionada à solicitação."
+					},
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/DataUser"
+						}
+					}
+				},
+				"required": ["code", "message", "users"]
+			},
+			"DataUser": {
+				"type": "object",
+				"properties": {
+					"idUser": {
+						"type": "string",
+						"description": "O id do usuário"
+					},
+					"name": {
+						"type": "string",
+						"description": "O nome completo do usuário."
+					},
+					"userName": {
+						"type": "string",
+						"description": "O nome de usuário único do usuário."
+					},
+					"email": {
+						"type": "string",
+						"description": "O endereço de e-mail do usuário."
+					},
+					"password": {
+						"type": "string",
+						"description": "A senha do usuário."
+					}
+				}
+			},
+			"createMessages": {
+				"type": "object",
+				"properties": {
+					"title": {
+						"type": "string",
+						"description": "O título da mensagem."
+					},
+					"description": {
+						"type": "string",
+						"description": "A descrição da mensagem."
+					},
+					"idUser": {
+						"type": "string",
+						"description": "O ID do usuário que criou a mensagem."
+					}
+				},
+				"required": ["title", "description", "idUser"]
+			},
+			"responseLogin": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "integer",
+						"description": "O código de status da resposta."
+					},
+					"message": {
+						"type": "string",
+						"description": "A mensagem da resposta."
+					},
+					"data": {
+						"type": "object",
+						"properties": {
+							"token": {
+								"type": "string",
+								"description": "O token de autenticação gerado."
+							},
+							"payload": {
+								"type": "object",
+								"properties": {
+									"idUser": {
+										"type": "string",
+										"description": "O ID do usuário."
+									},
+									"name": {
+										"type": "string",
+										"description": "O nome do usuário."
+									},
+									"email": {
+										"type": "string",
+										"description": "O e-mail do usuário."
+									}
+								},
+								"required": ["idUser", "name", "email"],
+								"description": "Os detalhes do usuário autenticado."
+							}
+						},
+						"required": ["token", "payload"],
+						"description": "Os dados retornados pela API."
+					}
+				},
+				"required": ["code", "message", "data"],
+				"description": "Resposta da API de login bem-sucedido."
+			}
+		}
+	}
+}

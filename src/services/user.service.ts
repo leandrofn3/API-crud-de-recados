@@ -53,13 +53,13 @@ class UserService {
     };
 
     public async update(data: UpdateUserDto): Promise<ResponseDto> {
-        
-        if(data.password){
+
+        if (data.password) {
             const salt = await bcrypt.genSalt(10)
             const hashedPassword = await bcrypt.hash(data.password, salt);
             data.password = hashedPassword;
         }
-        
+
         const updatedUser = await repository.user.update({
             where: {
                 idUser: data.idUser
@@ -70,7 +70,6 @@ class UserService {
                 username: data.userName,
                 email: data.email,
                 password: data.password,
-                token: data.token
             }
         });
 

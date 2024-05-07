@@ -5,6 +5,8 @@ import UserRouter from "./routes/user.routes";
 import MessagesRouter from "./routes/message.routes"
 import Authrouter from "./routes/auth.routes";
 import helmet from "helmet";
+import swaggerUi from "swagger-ui-express";
+import swaggerDoc from "./docs/swagger.json"
 
 dotenv.config();
 
@@ -15,6 +17,9 @@ app.use(cors());
 app.use(UserRouter);
 app.use(MessagesRouter);
 app.use(Authrouter);
+
+app.use("/docs", swaggerUi.serve);
+app.use("/docs", swaggerUi.setup(swaggerDoc));
 
 
 const port = process.env.PORT; 

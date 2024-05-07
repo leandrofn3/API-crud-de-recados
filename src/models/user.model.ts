@@ -3,7 +3,7 @@ import { v4 as createUuid } from "uuid";
 class UserModel {
 
     private _idUser: string;
-    
+
     constructor(
         private _name: string,
         private _userName: string,
@@ -13,7 +13,7 @@ class UserModel {
         this._idUser = createUuid()
     };
 
-    public get idUser (){
+    public get idUser() {
         return this._idUser;
     };
 

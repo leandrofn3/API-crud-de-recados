@@ -1,7 +1,7 @@
-DELETE  http://localhost:3333/message/delete/c63924c7-71b7-4d62-b96b-555eea88ef7e HTTP/1.1
+DELETE  http://localhost:3333/message/delete/e8920ee2-a563-49ee-b79a-513a85cc6c9e HTTP/1.1
 content-type: application/json
-Authorization: 78aa3f0d-435b-442c-9903-934521faeca2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOiJmOTI0ZGVkNC1lZjU3LTQ2MmEtOTk1NC00NzFmNTdmYzU4MjIiLCJuYW1lIjoiYWRtaW4zIiwiZW1haWwiOiJhZG1pbjNAZW1haWwuY29tIiwiaWF0IjoxNzE0NjUzNDQ1LCJleHAiOjE3MTQ2NTcwNDV9.k9LJ9kQ1JeivCPDTpQk11Fw_VA0X3OyWHQpdzu27Vxo
 
 {
-    "idUser": "08b81e56-a867-4c94-a563-f6ede1ef685d"
+    "idUser": "f924ded4-ef57-462a-9954-471f57fc5822"
 }

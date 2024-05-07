@@ -12,8 +12,7 @@ model User {
   name     String     @db.VarChar(50)
   username String     @unique @db.VarChar(20)
   email    String     @unique @db.VarChar(50)
-  password String     
-  token    String?    @unique
+  password String
   messages Messages[]
 
   @@map("user")

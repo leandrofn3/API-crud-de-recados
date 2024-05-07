@@ -1,2 +1,2 @@
-GET http://localhost:3333/users/list/message/34c83e25-1680-4a2f-8daa-65c0b8fe3d02 HTTP/1.1
-Authorization: 78aa3f0d-435b-442c-9903-934521faeca2
+GET http://localhost:3333/users/list/message/f924ded4-ef57-462a-9954-471f57fc5821 HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOiJmOTI0ZGVkNC1lZjU3LTQ2MmEtOTk1NC00NzFmNTdmYzU4MjIiLCJuYW1lIjoiYWRtaW4zIiwiZW1haWwiOiJhZG1pbjNAZW1haWwuY29tIiwiaWF0IjoxNzE1MDEzMzM1LCJleHAiOjE3MTUwMTY5MzV9.B9E-CFMH4FCGHzVu34cI-k5SBsDs0LyRcpL3rOGH0SA
